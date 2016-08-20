@@ -18,7 +18,7 @@ router.get('/login', function(req, res, next) {
   });
 })
 
-router.post('/users/register', function (req, res, next) {
+router.post('/register', function (req, res, next) {
   // Get Form Values
   var name = req.body.name;
   var email = req.body.email;
@@ -26,8 +26,8 @@ router.post('/users/register', function (req, res, next) {
   var password = req.body.password;
   var password2 = req.body.password2;
 
-  if(req.files.profileImage){
-    console.log(Uploading File...);
+  if(req.files && req.files.profileImage){
+    console.log('Uploading File...');
 
     // File Info
     var profileImageOriginalName = req.files.profileImage.originalname;
@@ -38,7 +38,7 @@ router.post('/users/register', function (req, res, next) {
     var profileImageSize = req.files.profileImage.size;
   }else{
     // Set a Default Image
-    var profileImage = 'noimage.png';
+    var profileImage = 'noimage.jpg';
   }
 
   // Form Validation
@@ -49,6 +49,39 @@ router.post('/users/register', function (req, res, next) {
   req.checkBody('username', 'Username is required').notEmpty();
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
+
+  // Check for Errors
+
+  var errors = req.validationErrors();
+  if(errors){
+    res.render('register', {
+      errors: errors,
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      password2: password2
+    })
+  }else {
+    var newUser = new User({
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      profileImage: profileImageName
+    });
+
+    // Create User
+    User.creatUser(newUser, function (err, user) {
+      if (err) throw err
+        console.log(user);
+    });
+
+    // Success Message
+    req.flash('success', 'You are now registered and may login');
+    res.location('/');
+    res.redirect('/');
+  }
 });
 
 module.exports = router;
