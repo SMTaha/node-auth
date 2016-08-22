@@ -76,7 +76,7 @@ router.post('/register', multer().single('profileImage'), function (req, res, ne
     });
 
     // Create User
-    User.creatUser(newUser, function (err, user) {
+    User.createUser(newUser, function (err, user) {
       if (err) throw err
         console.log(user);
     });
