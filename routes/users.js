@@ -1,5 +1,9 @@
+var multer = require('multer');
 var express = require('express');
 var router = express.Router();
+
+
+var User = require('./../models/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -18,7 +22,7 @@ router.get('/login', function(req, res, next) {
   });
 })
 
-router.post('/register', function (req, res, next) {
+router.post('/register', multer().single('profileImage'), function (req, res, next) {
   // Get Form Values
   var name = req.body.name;
   var email = req.body.email;
@@ -26,19 +30,19 @@ router.post('/register', function (req, res, next) {
   var password = req.body.password;
   var password2 = req.body.password2;
 
-  if(req.files && req.files.profileImage){
+  if(req.file){
     console.log('Uploading File...');
 
     // File Info
-    var profileImageOriginalName = req.files.profileImage.originalname;
-    var profileImageName = req.files.profileImage.name;
-    var profileImageMime = req.files.profileImage.mimetype;
-    var profileImagePath = req.files.profileImage.path;
-    var profileImageExt = req.files.profileImage.extension;
-    var profileImageSize = req.files.profileImage.size;
-  }else{
+    var profileImageOriginalName  = req.file.originalname;
+    var profileImageName          = req.file.name;
+    var profileImagePath          = req.file.path;
+    var profileImageMime          = req.file.mimetype;
+    var profileImageExt           = req.file.extension;
+    var profileImageSize          = req.file.size;
+  } else {
     // Set a Default Image
-    var profileImage = 'noimage.jpg';
+    var profileImageName = 'noimage.jpg';
   }
 
   // Form Validation
