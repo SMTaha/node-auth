@@ -1,6 +1,6 @@
 {
   "name": "node-auth",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -24,5 +24,15 @@
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SMTaha/node-auth.git"
+  },
+  "author": "S. M. Taha",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/SMTaha/node-auth/issues"
+  },
+  "homepage": "https://github.com/SMTaha/node-auth#readme"
 }
