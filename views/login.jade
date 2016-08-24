@@ -3,6 +3,10 @@ extends layout
 block content
   h1 Login
   p Please Login below
+  ul.errors
+    if errors
+      each error, i in errors  
+        li.alert.alert-danger #{error.msg}
   form(method='post', action='/users/login')
     .form-group
       label Username
